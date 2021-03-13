@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS employees;
 --
 
 CREATE TABLE categories (
-    category_id smallint NOT NULL,
+    category_id SERIAL NOT NULL,
     category_name character varying(15) NOT NULL,
     description text,
     picture bytea
@@ -92,7 +92,7 @@ CREATE TABLE customers (
 --
 
 CREATE TABLE employees (
-    employee_id smallint NOT NULL,
+    employee_id SERIAL NOT NULL,
     last_name character varying(20) NOT NULL,
     first_name character varying(10) NOT NULL,
     title character varying(30),
@@ -143,7 +143,7 @@ CREATE TABLE order_details (
 --
 
 CREATE TABLE orders (
-    order_id smallint NOT NULL,
+    order_id SERIAL NOT NULL,
     customer_id bpchar,
     employee_id smallint,
     order_date date,
@@ -165,7 +165,7 @@ CREATE TABLE orders (
 --
 
 CREATE TABLE products (
-    product_id smallint NOT NULL,
+    product_id SERIAL NOT NULL,
     product_name character varying(40) NOT NULL,
     supplier_id smallint,
     category_id smallint,
@@ -183,7 +183,7 @@ CREATE TABLE products (
 --
 
 CREATE TABLE region (
-    region_id smallint NOT NULL,
+    region_id SERIAL NOT NULL,
     region_description bpchar NOT NULL
 );
 
@@ -193,7 +193,7 @@ CREATE TABLE region (
 --
 
 CREATE TABLE shippers (
-    shipper_id smallint NOT NULL,
+    shipper_id SERIAL NOT NULL,
     company_name character varying(40) NOT NULL,
     phone character varying(24)
 );
@@ -205,7 +205,7 @@ CREATE TABLE shippers (
 --
 
 CREATE TABLE suppliers (
-    supplier_id smallint NOT NULL,
+    supplier_id SERIAL NOT NULL,
     company_name character varying(40) NOT NULL,
     contact_name character varying(30),
     contact_title character varying(30),
@@ -236,7 +236,7 @@ CREATE TABLE territories (
 --
 
 CREATE TABLE us_states (
-    state_id smallint NOT NULL,
+    state_id SERIAL NOT NULL,
     state_name character varying(100),
     state_abbr character varying(2),
     state_region character varying(50)
@@ -247,14 +247,14 @@ CREATE TABLE us_states (
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO categories VALUES (1, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
-INSERT INTO categories VALUES (2, 'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
-INSERT INTO categories VALUES (3, 'Confections', 'Desserts, candies, and sweet breads', '\x');
-INSERT INTO categories VALUES (4, 'Dairy Products', 'Cheeses', '\x');
-INSERT INTO categories VALUES (5, 'Grains/Cereals', 'Breads, crackers, pasta, and cereal', '\x');
-INSERT INTO categories VALUES (6, 'Meat/Poultry', 'Prepared meats', '\x');
-INSERT INTO categories VALUES (7, 'Produce', 'Dried fruit and bean curd', '\x');
-INSERT INTO categories VALUES (8, 'Seafood', 'Seaweed and fish', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Beverages', 'Soft drinks, coffees, teas, beers, and ales', '\x');
+INSERT INTO categories VALUES (DEFAULT,'Condiments', 'Sweet and savory sauces, relishes, spreads, and seasonings', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Confections', 'Desserts, candies, and sweet breads', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Dairy Products', 'Cheeses', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Grains/Cereals', 'Breads, crackers, pasta, and cereal', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Meat/Poultry', 'Prepared meats', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Produce', 'Dried fruit and bean curd', '\x');
+INSERT INTO categories VALUES (DEFAULT, 'Seafood', 'Seaweed and fish', '\x');
 
 
 --
@@ -370,15 +370,15 @@ INSERT INTO customers VALUES ('WOLZA', 'Wolski  Zajazd', 'Zbyszek Piestrzeniewic
 -- Data for Name: employees; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO employees VALUES (1, 'Davolio', 'Nancy', 'Sales Representative', 'Ms.', '1948-12-08', '1992-05-01', '507 - 20th Ave. E.\nApt. 2A', 'Seattle', 'WA', '98122', 'USA', '(206) 555-9857', '5467', '\x', 'Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.', 2, 'http://accweb/emmployees/davolio.bmp');
-INSERT INTO employees VALUES (2, 'Fuller', 'Andrew', 'Vice President, Sales', 'Dr.', '1952-02-19', '1992-08-14', '908 W. Capital Way', 'Tacoma', 'WA', '98401', 'USA', '(206) 555-9482', '3457', '\x', 'Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.', NULL, 'http://accweb/emmployees/fuller.bmp');
-INSERT INTO employees VALUES (3, 'Leverling', 'Janet', 'Sales Representative', 'Ms.', '1963-08-30', '1992-04-01', '722 Moss Bay Blvd.', 'Kirkland', 'WA', '98033', 'USA', '(206) 555-3412', '3355', '\x', 'Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992.', 2, 'http://accweb/emmployees/leverling.bmp');
-INSERT INTO employees VALUES (4, 'Peacock', 'Margaret', 'Sales Representative', 'Mrs.', '1937-09-19', '1993-05-03', '4110 Old Redmond Rd.', 'Redmond', 'WA', '98052', 'USA', '(206) 555-8122', '5176', '\x', 'Margaret holds a BA in English literature from Concordia College (1958) and an MA from the American Institute of Culinary Arts (1966).  She was assigned to the London office temporarily from July through November 1992.', 2, 'http://accweb/emmployees/peacock.bmp');
-INSERT INTO employees VALUES (5, 'Buchanan', 'Steven', 'Sales Manager', 'Mr.', '1955-03-04', '1993-10-17', '14 Garrett Hill', 'London', NULL, 'SW1 8JR', 'UK', '(71) 555-4848', '3453', '\x', 'Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree in 1976.  Upon joining the company as a sales representative in 1992, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London.  He was promoted to sales manager in March 1993.  Mr. Buchanan has completed the courses Successful Telemarketing and International Sales Management.  He is fluent in French.', 2, 'http://accweb/emmployees/buchanan.bmp');
-INSERT INTO employees VALUES (6, 'Suyama', 'Michael', 'Sales Representative', 'Mr.', '1963-07-02', '1993-10-17', 'Coventry House\nMiner Rd.', 'London', NULL, 'EC2 7JR', 'UK', '(71) 555-7773', '428', '\x', 'Michael is a graduate of Sussex University (MA, economics, 1983) and the University of California at Los Angeles (MBA, marketing, 1986).  He has also taken the courses Multi-Cultural Selling and Time Management for the Sales Professional.  He is fluent in Japanese and can read and write French, Portuguese, and Spanish.', 5, 'http://accweb/emmployees/davolio.bmp');
-INSERT INTO employees VALUES (7, 'King', 'Robert', 'Sales Representative', 'Mr.', '1960-05-29', '1994-01-02', 'Edgeham Hollow\nWinchester Way', 'London', NULL, 'RG1 9SP', 'UK', '(71) 555-5598', '465', '\x', 'Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled Selling in Europe, he was transferred to the London office in March 1993.', 5, 'http://accweb/emmployees/davolio.bmp');
-INSERT INTO employees VALUES (8, 'Callahan', 'Laura', 'Inside Sales Coordinator', 'Ms.', '1958-01-09', '1994-03-05', '4726 - 11th Ave. N.E.', 'Seattle', 'WA', '98105', 'USA', '(206) 555-1189', '2344', '\x', 'Laura received a BA in psychology from the University of Washington.  She has also completed a course in business French.  She reads and writes French.', 2, 'http://accweb/emmployees/davolio.bmp');
-INSERT INTO employees VALUES (9, 'Dodsworth', 'Anne', 'Sales Representative', 'Ms.', '1966-01-27', '1994-11-15', '7 Houndstooth Rd.', 'London', NULL, 'WG2 7LT', 'UK', '(71) 555-4444', '452', '\x', 'Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German.', 5, 'http://accweb/emmployees/davolio.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Davolio', 'Nancy', 'Sales Representative', 'Ms.', '1948-12-08', '1992-05-01', '507 - 20th Ave. E.\nApt. 2A', 'Seattle', 'WA', '98122', 'USA', '(206) 555-9857', '5467', '\x', 'Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.', 2, 'http://accweb/emmployees/davolio.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Fuller', 'Andrew', 'Vice President, Sales', 'Dr.', '1952-02-19', '1992-08-14', '908 W. Capital Way', 'Tacoma', 'WA', '98401', 'USA', '(206) 555-9482', '3457', '\x', 'Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.', NULL, 'http://accweb/emmployees/fuller.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Leverling', 'Janet', 'Sales Representative', 'Ms.', '1963-08-30', '1992-04-01', '722 Moss Bay Blvd.', 'Kirkland', 'WA', '98033', 'USA', '(206) 555-3412', '3355', '\x', 'Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992.', 2, 'http://accweb/emmployees/leverling.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Peacock', 'Margaret', 'Sales Representative', 'Mrs.', '1937-09-19', '1993-05-03', '4110 Old Redmond Rd.', 'Redmond', 'WA', '98052', 'USA', '(206) 555-8122', '5176', '\x', 'Margaret holds a BA in English literature from Concordia College (1958) and an MA from the American Institute of Culinary Arts (1966).  She was assigned to the London office temporarily from July through November 1992.', 2, 'http://accweb/emmployees/peacock.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Buchanan', 'Steven', 'Sales Manager', 'Mr.', '1955-03-04', '1993-10-17', '14 Garrett Hill', 'London', NULL, 'SW1 8JR', 'UK', '(71) 555-4848', '3453', '\x', 'Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree in 1976.  Upon joining the company as a sales representative in 1992, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London.  He was promoted to sales manager in March 1993.  Mr. Buchanan has completed the courses Successful Telemarketing and International Sales Management.  He is fluent in French.', 2, 'http://accweb/emmployees/buchanan.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Suyama', 'Michael', 'Sales Representative', 'Mr.', '1963-07-02', '1993-10-17', 'Coventry House\nMiner Rd.', 'London', NULL, 'EC2 7JR', 'UK', '(71) 555-7773', '428', '\x', 'Michael is a graduate of Sussex University (MA, economics, 1983) and the University of California at Los Angeles (MBA, marketing, 1986).  He has also taken the courses Multi-Cultural Selling and Time Management for the Sales Professional.  He is fluent in Japanese and can read and write French, Portuguese, and Spanish.', 5, 'http://accweb/emmployees/davolio.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'King', 'Robert', 'Sales Representative', 'Mr.', '1960-05-29', '1994-01-02', 'Edgeham Hollow\nWinchester Way', 'London', NULL, 'RG1 9SP', 'UK', '(71) 555-5598', '465', '\x', 'Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled Selling in Europe, he was transferred to the London office in March 1993.', 5, 'http://accweb/emmployees/davolio.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Callahan', 'Laura', 'Inside Sales Coordinator', 'Ms.', '1958-01-09', '1994-03-05', '4726 - 11th Ave. N.E.', 'Seattle', 'WA', '98105', 'USA', '(206) 555-1189', '2344', '\x', 'Laura received a BA in psychology from the University of Washington.  She has also completed a course in business French.  She reads and writes French.', 2, 'http://accweb/emmployees/davolio.bmp');
+INSERT INTO employees VALUES (DEFAULT, 'Dodsworth', 'Anne', 'Sales Representative', 'Ms.', '1966-01-27', '1994-11-15', '7 Houndstooth Rd.', 'London', NULL, 'WG2 7LT', 'UK', '(71) 555-4444', '452', '\x', 'Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German.', 5, 'http://accweb/emmployees/davolio.bmp');
 
 
 --
@@ -3437,105 +3437,105 @@ INSERT INTO orders VALUES (11077, 'RATTC', 1, '1998-05-06', '1998-06-03', NULL, 
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO products VALUES (1, 'Chai', 8, 1, '10 boxes x 30 bags', 18, 39, 0, 10, 1);
-INSERT INTO products VALUES (2, 'Chang', 1, 1, '24 - 12 oz bottles', 19, 17, 40, 25, 1);
-INSERT INTO products VALUES (3, 'Aniseed Syrup', 1, 2, '12 - 550 ml bottles', 10, 13, 70, 25, 0);
-INSERT INTO products VALUES (4, 'Chef Anton''s Cajun Seasoning', 2, 2, '48 - 6 oz jars', 22, 53, 0, 0, 0);
-INSERT INTO products VALUES (5, 'Chef Anton''s Gumbo Mix', 2, 2, '36 boxes', 21.3500004, 0, 0, 0, 1);
-INSERT INTO products VALUES (6, 'Grandma''s Boysenberry Spread', 3, 2, '12 - 8 oz jars', 25, 120, 0, 25, 0);
-INSERT INTO products VALUES (7, 'Uncle Bob''s Organic Dried Pears', 3, 7, '12 - 1 lb pkgs.', 30, 15, 0, 10, 0);
-INSERT INTO products VALUES (8, 'Northwoods Cranberry Sauce', 3, 2, '12 - 12 oz jars', 40, 6, 0, 0, 0);
-INSERT INTO products VALUES (9, 'Mishi Kobe Niku', 4, 6, '18 - 500 g pkgs.', 97, 29, 0, 0, 1);
-INSERT INTO products VALUES (10, 'Ikura', 4, 8, '12 - 200 ml jars', 31, 31, 0, 0, 0);
-INSERT INTO products VALUES (11, 'Queso Cabrales', 5, 4, '1 kg pkg.', 21, 22, 30, 30, 0);
-INSERT INTO products VALUES (12, 'Queso Manchego La Pastora', 5, 4, '10 - 500 g pkgs.', 38, 86, 0, 0, 0);
-INSERT INTO products VALUES (13, 'Konbu', 6, 8, '2 kg box', 6, 24, 0, 5, 0);
-INSERT INTO products VALUES (14, 'Tofu', 6, 7, '40 - 100 g pkgs.', 23.25, 35, 0, 0, 0);
-INSERT INTO products VALUES (15, 'Genen Shouyu', 6, 2, '24 - 250 ml bottles', 13, 39, 0, 5, 0);
-INSERT INTO products VALUES (16, 'Pavlova', 7, 3, '32 - 500 g boxes', 17.4500008, 29, 0, 10, 0);
-INSERT INTO products VALUES (17, 'Alice Mutton', 7, 6, '20 - 1 kg tins', 39, 0, 0, 0, 1);
-INSERT INTO products VALUES (18, 'Carnarvon Tigers', 7, 8, '16 kg pkg.', 62.5, 42, 0, 0, 0);
-INSERT INTO products VALUES (19, 'Teatime Chocolate Biscuits', 8, 3, '10 boxes x 12 pieces', 9.19999981, 25, 0, 5, 0);
-INSERT INTO products VALUES (20, 'Sir Rodney''s Marmalade', 8, 3, '30 gift boxes', 81, 40, 0, 0, 0);
-INSERT INTO products VALUES (21, 'Sir Rodney''s Scones', 8, 3, '24 pkgs. x 4 pieces', 10, 3, 40, 5, 0);
-INSERT INTO products VALUES (22, 'Gustaf''s Knäckebröd', 9, 5, '24 - 500 g pkgs.', 21, 104, 0, 25, 0);
-INSERT INTO products VALUES (23, 'Tunnbröd', 9, 5, '12 - 250 g pkgs.', 9, 61, 0, 25, 0);
-INSERT INTO products VALUES (24, 'Guaraná Fantástica', 10, 1, '12 - 355 ml cans', 4.5, 20, 0, 0, 1);
-INSERT INTO products VALUES (25, 'NuNuCa Nuß-Nougat-Creme', 11, 3, '20 - 450 g glasses', 14, 76, 0, 30, 0);
-INSERT INTO products VALUES (26, 'Gumbär Gummibärchen', 11, 3, '100 - 250 g bags', 31.2299995, 15, 0, 0, 0);
-INSERT INTO products VALUES (27, 'Schoggi Schokolade', 11, 3, '100 - 100 g pieces', 43.9000015, 49, 0, 30, 0);
-INSERT INTO products VALUES (28, 'Rössle Sauerkraut', 12, 7, '25 - 825 g cans', 45.5999985, 26, 0, 0, 1);
-INSERT INTO products VALUES (29, 'Thüringer Rostbratwurst', 12, 6, '50 bags x 30 sausgs.', 123.790001, 0, 0, 0, 1);
-INSERT INTO products VALUES (30, 'Nord-Ost Matjeshering', 13, 8, '10 - 200 g glasses', 25.8899994, 10, 0, 15, 0);
-INSERT INTO products VALUES (31, 'Gorgonzola Telino', 14, 4, '12 - 100 g pkgs', 12.5, 0, 70, 20, 0);
-INSERT INTO products VALUES (32, 'Mascarpone Fabioli', 14, 4, '24 - 200 g pkgs.', 32, 9, 40, 25, 0);
-INSERT INTO products VALUES (33, 'Geitost', 15, 4, '500 g', 2.5, 112, 0, 20, 0);
-INSERT INTO products VALUES (34, 'Sasquatch Ale', 16, 1, '24 - 12 oz bottles', 14, 111, 0, 15, 0);
-INSERT INTO products VALUES (35, 'Steeleye Stout', 16, 1, '24 - 12 oz bottles', 18, 20, 0, 15, 0);
-INSERT INTO products VALUES (36, 'Inlagd Sill', 17, 8, '24 - 250 g  jars', 19, 112, 0, 20, 0);
-INSERT INTO products VALUES (37, 'Gravad lax', 17, 8, '12 - 500 g pkgs.', 26, 11, 50, 25, 0);
-INSERT INTO products VALUES (38, 'Côte de Blaye', 18, 1, '12 - 75 cl bottles', 263.5, 17, 0, 15, 0);
-INSERT INTO products VALUES (39, 'Chartreuse verte', 18, 1, '750 cc per bottle', 18, 69, 0, 5, 0);
-INSERT INTO products VALUES (40, 'Boston Crab Meat', 19, 8, '24 - 4 oz tins', 18.3999996, 123, 0, 30, 0);
-INSERT INTO products VALUES (41, 'Jack''s New England Clam Chowder', 19, 8, '12 - 12 oz cans', 9.64999962, 85, 0, 10, 0);
-INSERT INTO products VALUES (42, 'Singaporean Hokkien Fried Mee', 20, 5, '32 - 1 kg pkgs.', 14, 26, 0, 0, 1);
-INSERT INTO products VALUES (43, 'Ipoh Coffee', 20, 1, '16 - 500 g tins', 46, 17, 10, 25, 0);
-INSERT INTO products VALUES (44, 'Gula Malacca', 20, 2, '20 - 2 kg bags', 19.4500008, 27, 0, 15, 0);
-INSERT INTO products VALUES (45, 'Rogede sild', 21, 8, '1k pkg.', 9.5, 5, 70, 15, 0);
-INSERT INTO products VALUES (46, 'Spegesild', 21, 8, '4 - 450 g glasses', 12, 95, 0, 0, 0);
-INSERT INTO products VALUES (47, 'Zaanse koeken', 22, 3, '10 - 4 oz boxes', 9.5, 36, 0, 0, 0);
-INSERT INTO products VALUES (48, 'Chocolade', 22, 3, '10 pkgs.', 12.75, 15, 70, 25, 0);
-INSERT INTO products VALUES (49, 'Maxilaku', 23, 3, '24 - 50 g pkgs.', 20, 10, 60, 15, 0);
-INSERT INTO products VALUES (50, 'Valkoinen suklaa', 23, 3, '12 - 100 g bars', 16.25, 65, 0, 30, 0);
-INSERT INTO products VALUES (51, 'Manjimup Dried Apples', 24, 7, '50 - 300 g pkgs.', 53, 20, 0, 10, 0);
-INSERT INTO products VALUES (52, 'Filo Mix', 24, 5, '16 - 2 kg boxes', 7, 38, 0, 25, 0);
-INSERT INTO products VALUES (53, 'Perth Pasties', 24, 6, '48 pieces', 32.7999992, 0, 0, 0, 1);
-INSERT INTO products VALUES (54, 'Tourtière', 25, 6, '16 pies', 7.44999981, 21, 0, 10, 0);
-INSERT INTO products VALUES (55, 'Pâté chinois', 25, 6, '24 boxes x 2 pies', 24, 115, 0, 20, 0);
-INSERT INTO products VALUES (56, 'Gnocchi di nonna Alice', 26, 5, '24 - 250 g pkgs.', 38, 21, 10, 30, 0);
-INSERT INTO products VALUES (57, 'Ravioli Angelo', 26, 5, '24 - 250 g pkgs.', 19.5, 36, 0, 20, 0);
-INSERT INTO products VALUES (58, 'Escargots de Bourgogne', 27, 8, '24 pieces', 13.25, 62, 0, 20, 0);
-INSERT INTO products VALUES (59, 'Raclette Courdavault', 28, 4, '5 kg pkg.', 55, 79, 0, 0, 0);
-INSERT INTO products VALUES (60, 'Camembert Pierrot', 28, 4, '15 - 300 g rounds', 34, 19, 0, 0, 0);
-INSERT INTO products VALUES (61, 'Sirop d''érable', 29, 2, '24 - 500 ml bottles', 28.5, 113, 0, 25, 0);
-INSERT INTO products VALUES (62, 'Tarte au sucre', 29, 3, '48 pies', 49.2999992, 17, 0, 0, 0);
-INSERT INTO products VALUES (63, 'Vegie-spread', 7, 2, '15 - 625 g jars', 43.9000015, 24, 0, 5, 0);
-INSERT INTO products VALUES (64, 'Wimmers gute Semmelknödel', 12, 5, '20 bags x 4 pieces', 33.25, 22, 80, 30, 0);
-INSERT INTO products VALUES (65, 'Louisiana Fiery Hot Pepper Sauce', 2, 2, '32 - 8 oz bottles', 21.0499992, 76, 0, 0, 0);
-INSERT INTO products VALUES (66, 'Louisiana Hot Spiced Okra', 2, 2, '24 - 8 oz jars', 17, 4, 100, 20, 0);
-INSERT INTO products VALUES (67, 'Laughing Lumberjack Lager', 16, 1, '24 - 12 oz bottles', 14, 52, 0, 10, 0);
-INSERT INTO products VALUES (68, 'Scottish Longbreads', 8, 3, '10 boxes x 8 pieces', 12.5, 6, 10, 15, 0);
-INSERT INTO products VALUES (69, 'Gudbrandsdalsost', 15, 4, '10 kg pkg.', 36, 26, 0, 15, 0);
-INSERT INTO products VALUES (70, 'Outback Lager', 7, 1, '24 - 355 ml bottles', 15, 15, 10, 30, 0);
-INSERT INTO products VALUES (71, 'Flotemysost', 15, 4, '10 - 500 g pkgs.', 21.5, 26, 0, 0, 0);
-INSERT INTO products VALUES (72, 'Mozzarella di Giovanni', 14, 4, '24 - 200 g pkgs.', 34.7999992, 14, 0, 0, 0);
-INSERT INTO products VALUES (73, 'Röd Kaviar', 17, 8, '24 - 150 g jars', 15, 101, 0, 5, 0);
-INSERT INTO products VALUES (74, 'Longlife Tofu', 4, 7, '5 kg pkg.', 10, 4, 20, 5, 0);
-INSERT INTO products VALUES (75, 'Rhönbräu Klosterbier', 12, 1, '24 - 0.5 l bottles', 7.75, 125, 0, 25, 0);
-INSERT INTO products VALUES (76, 'Lakkalikööri', 23, 1, '500 ml', 18, 57, 0, 20, 0);
-INSERT INTO products VALUES (77, 'Original Frankfurter grüne Soße', 12, 2, '12 boxes', 13, 32, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Chai', 8, 1, '10 boxes x 30 bags', 18, 39, 0, 10, 1);
+INSERT INTO products VALUES (DEFAULT, 'Chang', 1, 1, '24 - 12 oz bottles', 19, 17, 40, 25, 1);
+INSERT INTO products VALUES (DEFAULT, 'Aniseed Syrup', 1, 2, '12 - 550 ml bottles', 10, 13, 70, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Chef Anton''s Cajun Seasoning', 2, 2, '48 - 6 oz jars', 22, 53, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Chef Anton''s Gumbo Mix', 2, 2, '36 boxes', 21.3500004, 0, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Grandma''s Boysenberry Spread', 3, 2, '12 - 8 oz jars', 25, 120, 0, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Uncle Bob''s Organic Dried Pears', 3, 7, '12 - 1 lb pkgs.', 30, 15, 0, 10, 0);
+INSERT INTO products VALUES (DEFAULT, 'Northwoods Cranberry Sauce', 3, 2, '12 - 12 oz jars', 40, 6, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Mishi Kobe Niku', 4, 6, '18 - 500 g pkgs.', 97, 29, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Ikura', 4, 8, '12 - 200 ml jars', 31, 31, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Queso Cabrales', 5, 4, '1 kg pkg.', 21, 22, 30, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Queso Manchego La Pastora', 5, 4, '10 - 500 g pkgs.', 38, 86, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Konbu', 6, 8, '2 kg box', 6, 24, 0, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Tofu', 6, 7, '40 - 100 g pkgs.', 23.25, 35, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Genen Shouyu', 6, 2, '24 - 250 ml bottles', 13, 39, 0, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Pavlova', 7, 3, '32 - 500 g boxes', 17.4500008, 29, 0, 10, 0);
+INSERT INTO products VALUES (DEFAULT, 'Alice Mutton', 7, 6, '20 - 1 kg tins', 39, 0, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Carnarvon Tigers', 7, 8, '16 kg pkg.', 62.5, 42, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Teatime Chocolate Biscuits', 8, 3, '10 boxes x 12 pieces', 9.19999981, 25, 0, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Sir Rodney''s Marmalade', 8, 3, '30 gift boxes', 81, 40, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Sir Rodney''s Scones', 8, 3, '24 pkgs. x 4 pieces', 10, 3, 40, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gustaf''s Knäckebröd', 9, 5, '24 - 500 g pkgs.', 21, 104, 0, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Tunnbröd', 9, 5, '12 - 250 g pkgs.', 9, 61, 0, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Guaraná Fantástica', 10, 1, '12 - 355 ml cans', 4.5, 20, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'NuNuCa Nuß-Nougat-Creme', 11, 3, '20 - 450 g glasses', 14, 76, 0, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gumbär Gummibärchen', 11, 3, '100 - 250 g bags', 31.2299995, 15, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Schoggi Schokolade', 11, 3, '100 - 100 g pieces', 43.9000015, 49, 0, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Rössle Sauerkraut', 12, 7, '25 - 825 g cans', 45.5999985, 26, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Thüringer Rostbratwurst', 12, 6, '50 bags x 30 sausgs.', 123.790001, 0, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Nord-Ost Matjeshering', 13, 8, '10 - 200 g glasses', 25.8899994, 10, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gorgonzola Telino', 14, 4, '12 - 100 g pkgs', 12.5, 0, 70, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Mascarpone Fabioli', 14, 4, '24 - 200 g pkgs.', 32, 9, 40, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Geitost', 15, 4, '500 g', 2.5, 112, 0, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Sasquatch Ale', 16, 1, '24 - 12 oz bottles', 14, 111, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Steeleye Stout', 16, 1, '24 - 12 oz bottles', 18, 20, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Inlagd Sill', 17, 8, '24 - 250 g  jars', 19, 112, 0, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gravad lax', 17, 8, '12 - 500 g pkgs.', 26, 11, 50, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Côte de Blaye', 18, 1, '12 - 75 cl bottles', 263.5, 17, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Chartreuse verte', 18, 1, '750 cc per bottle', 18, 69, 0, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Boston Crab Meat', 19, 8, '24 - 4 oz tins', 18.3999996, 123, 0, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Jack''s New England Clam Chowder', 19, 8, '12 - 12 oz cans', 9.64999962, 85, 0, 10, 0);
+INSERT INTO products VALUES (DEFAULT, 'Singaporean Hokkien Fried Mee', 20, 5, '32 - 1 kg pkgs.', 14, 26, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Ipoh Coffee', 20, 1, '16 - 500 g tins', 46, 17, 10, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gula Malacca', 20, 2, '20 - 2 kg bags', 19.4500008, 27, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Rogede sild', 21, 8, '1k pkg.', 9.5, 5, 70, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Spegesild', 21, 8, '4 - 450 g glasses', 12, 95, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Zaanse koeken', 22, 3, '10 - 4 oz boxes', 9.5, 36, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Chocolade', 22, 3, '10 pkgs.', 12.75, 15, 70, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Maxilaku', 23, 3, '24 - 50 g pkgs.', 20, 10, 60, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Valkoinen suklaa', 23, 3, '12 - 100 g bars', 16.25, 65, 0, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Manjimup Dried Apples', 24, 7, '50 - 300 g pkgs.', 53, 20, 0, 10, 0);
+INSERT INTO products VALUES (DEFAULT, 'Filo Mix', 24, 5, '16 - 2 kg boxes', 7, 38, 0, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Perth Pasties', 24, 6, '48 pieces', 32.7999992, 0, 0, 0, 1);
+INSERT INTO products VALUES (DEFAULT, 'Tourtière', 25, 6, '16 pies', 7.44999981, 21, 0, 10, 0);
+INSERT INTO products VALUES (DEFAULT, 'Pâté chinois', 25, 6, '24 boxes x 2 pies', 24, 115, 0, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gnocchi di nonna Alice', 26, 5, '24 - 250 g pkgs.', 38, 21, 10, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Ravioli Angelo', 26, 5, '24 - 250 g pkgs.', 19.5, 36, 0, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Escargots de Bourgogne', 27, 8, '24 pieces', 13.25, 62, 0, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Raclette Courdavault', 28, 4, '5 kg pkg.', 55, 79, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Camembert Pierrot', 28, 4, '15 - 300 g rounds', 34, 19, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Sirop d''érable', 29, 2, '24 - 500 ml bottles', 28.5, 113, 0, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Tarte au sucre', 29, 3, '48 pies', 49.2999992, 17, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Vegie-spread', 7, 2, '15 - 625 g jars', 43.9000015, 24, 0, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Wimmers gute Semmelknödel', 12, 5, '20 bags x 4 pieces', 33.25, 22, 80, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Louisiana Fiery Hot Pepper Sauce', 2, 2, '32 - 8 oz bottles', 21.0499992, 76, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Louisiana Hot Spiced Okra', 2, 2, '24 - 8 oz jars', 17, 4, 100, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Laughing Lumberjack Lager', 16, 1, '24 - 12 oz bottles', 14, 52, 0, 10, 0);
+INSERT INTO products VALUES (DEFAULT, 'Scottish Longbreads', 8, 3, '10 boxes x 8 pieces', 12.5, 6, 10, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Gudbrandsdalsost', 15, 4, '10 kg pkg.', 36, 26, 0, 15, 0);
+INSERT INTO products VALUES (DEFAULT, 'Outback Lager', 7, 1, '24 - 355 ml bottles', 15, 15, 10, 30, 0);
+INSERT INTO products VALUES (DEFAULT, 'Flotemysost', 15, 4, '10 - 500 g pkgs.', 21.5, 26, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Mozzarella di Giovanni', 14, 4, '24 - 200 g pkgs.', 34.7999992, 14, 0, 0, 0);
+INSERT INTO products VALUES (DEFAULT, 'Röd Kaviar', 17, 8, '24 - 150 g jars', 15, 101, 0, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Longlife Tofu', 4, 7, '5 kg pkg.', 10, 4, 20, 5, 0);
+INSERT INTO products VALUES (DEFAULT, 'Rhönbräu Klosterbier', 12, 1, '24 - 0.5 l bottles', 7.75, 125, 0, 25, 0);
+INSERT INTO products VALUES (DEFAULT, 'Lakkalikööri', 23, 1, '500 ml', 18, 57, 0, 20, 0);
+INSERT INTO products VALUES (DEFAULT, 'Original Frankfurter grüne Soße', 12, 2, '12 boxes', 13, 32, 0, 15, 0);
 
 
 --
 -- Data for Name: region; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO region VALUES (1, 'Eastern');
-INSERT INTO region VALUES (2, 'Western');
-INSERT INTO region VALUES (3, 'Northern');
-INSERT INTO region VALUES (4, 'Southern');
+INSERT INTO region VALUES (DEFAULT, 'Eastern');
+INSERT INTO region VALUES (DEFAULT, 'Western');
+INSERT INTO region VALUES (DEFAULT, 'Northern');
+INSERT INTO region VALUES (DEFAULT, 'Southern');
 
 
 --
 -- Data for Name: shippers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO shippers VALUES (1, 'Speedy Express', '(503) 555-9831');
-INSERT INTO shippers VALUES (2, 'United Package', '(503) 555-3199');
-INSERT INTO shippers VALUES (3, 'Federal Shipping', '(503) 555-9931');
-INSERT INTO shippers VALUES (4, 'Alliance Shippers', '1-800-222-0451');
-INSERT INTO shippers VALUES (5, 'UPS', '1-800-782-7892');
-INSERT INTO shippers VALUES (6, 'DHL', '1-800-225-5345');
+INSERT INTO shippers VALUES (DEFAULT, 'Speedy Express', '(503) 555-9831');
+INSERT INTO shippers VALUES (DEFAULT, 'United Package', '(503) 555-3199');
+INSERT INTO shippers VALUES (DEFAULT, 'Federal Shipping', '(503) 555-9931');
+INSERT INTO shippers VALUES (DEFAULT, 'Alliance Shippers', '1-800-222-0451');
+INSERT INTO shippers VALUES (DEFAULT, 'UPS', '1-800-782-7892');
+INSERT INTO shippers VALUES (DEFAULT, 'DHL', '1-800-225-5345');
 
 
 
@@ -3543,35 +3543,35 @@ INSERT INTO shippers VALUES (6, 'DHL', '1-800-225-5345');
 -- Data for Name: suppliers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO suppliers VALUES (1, 'Exotic Liquids', 'Charlotte Cooper', 'Purchasing Manager', '49 Gilbert St.', 'London', NULL, 'EC1 4SD', 'UK', '(171) 555-2222', NULL, NULL);
-INSERT INTO suppliers VALUES (2, 'New Orleans Cajun Delights', 'Shelley Burke', 'Order Administrator', 'P.O. Box 78934', 'New Orleans', 'LA', '70117', 'USA', '(100) 555-4822', NULL, '#CAJUN.HTM#');
-INSERT INTO suppliers VALUES (3, 'Grandma Kelly''s Homestead', 'Regina Murphy', 'Sales Representative', '707 Oxford Rd.', 'Ann Arbor', 'MI', '48104', 'USA', '(313) 555-5735', '(313) 555-3349', NULL);
-INSERT INTO suppliers VALUES (4, 'Tokyo Traders', 'Yoshi Nagase', 'Marketing Manager', '9-8 Sekimai Musashino-shi', 'Tokyo', NULL, '100', 'Japan', '(03) 3555-5011', NULL, NULL);
-INSERT INTO suppliers VALUES (5, 'Cooperativa de Quesos ''Las Cabras''', 'Antonio del Valle Saavedra', 'Export Administrator', 'Calle del Rosal 4', 'Oviedo', 'Asturias', '33007', 'Spain', '(98) 598 76 54', NULL, NULL);
-INSERT INTO suppliers VALUES (6, 'Mayumi''s', 'Mayumi Ohno', 'Marketing Representative', '92 Setsuko Chuo-ku', 'Osaka', NULL, '545', 'Japan', '(06) 431-7877', NULL, 'Mayumi''s (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/mayumi.htm#');
-INSERT INTO suppliers VALUES (7, 'Pavlova, Ltd.', 'Ian Devling', 'Marketing Manager', '74 Rose St. Moonie Ponds', 'Melbourne', 'Victoria', '3058', 'Australia', '(03) 444-2343', '(03) 444-6588', NULL);
-INSERT INTO suppliers VALUES (8, 'Specialty Biscuits, Ltd.', 'Peter Wilson', 'Sales Representative', '29 King''s Way', 'Manchester', NULL, 'M14 GSD', 'UK', '(161) 555-4448', NULL, NULL);
-INSERT INTO suppliers VALUES (9, 'PB Knäckebröd AB', 'Lars Peterson', 'Sales Agent', 'Kaloadagatan 13', 'Göteborg', NULL, 'S-345 67', 'Sweden', '031-987 65 43', '031-987 65 91', NULL);
-INSERT INTO suppliers VALUES (10, 'Refrescos Americanas LTDA', 'Carlos Diaz', 'Marketing Manager', 'Av. das Americanas 12.890', 'Sao Paulo', NULL, '5442', 'Brazil', '(11) 555 4640', NULL, NULL);
-INSERT INTO suppliers VALUES (11, 'Heli Süßwaren GmbH & Co. KG', 'Petra Winkler', 'Sales Manager', 'Tiergartenstraße 5', 'Berlin', NULL, '10785', 'Germany', '(010) 9984510', NULL, NULL);
-INSERT INTO suppliers VALUES (12, 'Plutzer Lebensmittelgroßmärkte AG', 'Martin Bein', 'International Marketing Mgr.', 'Bogenallee 51', 'Frankfurt', NULL, '60439', 'Germany', '(069) 992755', NULL, 'Plutzer (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/plutzer.htm#');
-INSERT INTO suppliers VALUES (13, 'Nord-Ost-Fisch Handelsgesellschaft mbH', 'Sven Petersen', 'Coordinator Foreign Markets', 'Frahmredder 112a', 'Cuxhaven', NULL, '27478', 'Germany', '(04721) 8713', '(04721) 8714', NULL);
-INSERT INTO suppliers VALUES (14, 'Formaggi Fortini s.r.l.', 'Elio Rossi', 'Sales Representative', 'Viale Dante, 75', 'Ravenna', NULL, '48100', 'Italy', '(0544) 60323', '(0544) 60603', '#FORMAGGI.HTM#');
-INSERT INTO suppliers VALUES (15, 'Norske Meierier', 'Beate Vileid', 'Marketing Manager', 'Hatlevegen 5', 'Sandvika', NULL, '1320', 'Norway', '(0)2-953010', NULL, NULL);
-INSERT INTO suppliers VALUES (16, 'Bigfoot Breweries', 'Cheryl Saylor', 'Regional Account Rep.', '3400 - 8th Avenue Suite 210', 'Bend', 'OR', '97101', 'USA', '(503) 555-9931', NULL, NULL);
-INSERT INTO suppliers VALUES (17, 'Svensk Sjöföda AB', 'Michael Björn', 'Sales Representative', 'Brovallavägen 231', 'Stockholm', NULL, 'S-123 45', 'Sweden', '08-123 45 67', NULL, NULL);
-INSERT INTO suppliers VALUES (18, 'Aux joyeux ecclésiastiques', 'Guylène Nodier', 'Sales Manager', '203, Rue des Francs-Bourgeois', 'Paris', NULL, '75004', 'France', '(1) 03.83.00.68', '(1) 03.83.00.62', NULL);
-INSERT INTO suppliers VALUES (19, 'New England Seafood Cannery', 'Robb Merchant', 'Wholesale Account Agent', 'Order Processing Dept. 2100 Paul Revere Blvd.', 'Boston', 'MA', '02134', 'USA', '(617) 555-3267', '(617) 555-3389', NULL);
-INSERT INTO suppliers VALUES (20, 'Leka Trading', 'Chandra Leka', 'Owner', '471 Serangoon Loop, Suite #402', 'Singapore', NULL, '0512', 'Singapore', '555-8787', NULL, NULL);
-INSERT INTO suppliers VALUES (21, 'Lyngbysild', 'Niels Petersen', 'Sales Manager', 'Lyngbysild Fiskebakken 10', 'Lyngby', NULL, '2800', 'Denmark', '43844108', '43844115', NULL);
-INSERT INTO suppliers VALUES (22, 'Zaanse Snoepfabriek', 'Dirk Luchte', 'Accounting Manager', 'Verkoop Rijnweg 22', 'Zaandam', NULL, '9999 ZZ', 'Netherlands', '(12345) 1212', '(12345) 1210', NULL);
-INSERT INTO suppliers VALUES (23, 'Karkki Oy', 'Anne Heikkonen', 'Product Manager', 'Valtakatu 12', 'Lappeenranta', NULL, '53120', 'Finland', '(953) 10956', NULL, NULL);
-INSERT INTO suppliers VALUES (24, 'G''day, Mate', 'Wendy Mackenzie', 'Sales Representative', '170 Prince Edward Parade Hunter''s Hill', 'Sydney', 'NSW', '2042', 'Australia', '(02) 555-5914', '(02) 555-4873', 'G''day Mate (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/gdaymate.htm#');
-INSERT INTO suppliers VALUES (25, 'Ma Maison', 'Jean-Guy Lauzon', 'Marketing Manager', '2960 Rue St. Laurent', 'Montréal', 'Québec', 'H1J 1C3', 'Canada', '(514) 555-9022', NULL, NULL);
-INSERT INTO suppliers VALUES (26, 'Pasta Buttini s.r.l.', 'Giovanni Giudici', 'Order Administrator', 'Via dei Gelsomini, 153', 'Salerno', NULL, '84100', 'Italy', '(089) 6547665', '(089) 6547667', NULL);
-INSERT INTO suppliers VALUES (27, 'Escargots Nouveaux', 'Marie Delamare', 'Sales Manager', '22, rue H. Voiron', 'Montceau', NULL, '71300', 'France', '85.57.00.07', NULL, NULL);
-INSERT INTO suppliers VALUES (28, 'Gai pâturage', 'Eliane Noz', 'Sales Representative', 'Bat. B 3, rue des Alpes', 'Annecy', NULL, '74000', 'France', '38.76.98.06', '38.76.98.58', NULL);
-INSERT INTO suppliers VALUES (29, 'Forêts d''érables', 'Chantal Goulet', 'Accounting Manager', '148 rue Chasseur', 'Ste-Hyacinthe', 'Québec', 'J2S 7S8', 'Canada', '(514) 555-2955', '(514) 555-2921', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Exotic Liquids', 'Charlotte Cooper', 'Purchasing Manager', '49 Gilbert St.', 'London', NULL, 'EC1 4SD', 'UK', '(171) 555-2222', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'New Orleans Cajun Delights', 'Shelley Burke', 'Order Administrator', 'P.O. Box 78934', 'New Orleans', 'LA', '70117', 'USA', '(100) 555-4822', NULL, '#CAJUN.HTM#');
+INSERT INTO suppliers VALUES (DEFAULT, 'Grandma Kelly''s Homestead', 'Regina Murphy', 'Sales Representative', '707 Oxford Rd.', 'Ann Arbor', 'MI', '48104', 'USA', '(313) 555-5735', '(313) 555-3349', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Tokyo Traders', 'Yoshi Nagase', 'Marketing Manager', '9-8 Sekimai Musashino-shi', 'Tokyo', NULL, '100', 'Japan', '(03) 3555-5011', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Cooperativa de Quesos ''Las Cabras''', 'Antonio del Valle Saavedra', 'Export Administrator', 'Calle del Rosal 4', 'Oviedo', 'Asturias', '33007', 'Spain', '(98) 598 76 54', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Mayumi''s', 'Mayumi Ohno', 'Marketing Representative', '92 Setsuko Chuo-ku', 'Osaka', NULL, '545', 'Japan', '(06) 431-7877', NULL, 'Mayumi''s (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/mayumi.htm#');
+INSERT INTO suppliers VALUES (DEFAULT, 'Pavlova, Ltd.', 'Ian Devling', 'Marketing Manager', '74 Rose St. Moonie Ponds', 'Melbourne', 'Victoria', '3058', 'Australia', '(03) 444-2343', '(03) 444-6588', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Specialty Biscuits, Ltd.', 'Peter Wilson', 'Sales Representative', '29 King''s Way', 'Manchester', NULL, 'M14 GSD', 'UK', '(161) 555-4448', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'PB Knäckebröd AB', 'Lars Peterson', 'Sales Agent', 'Kaloadagatan 13', 'Göteborg', NULL, 'S-345 67', 'Sweden', '031-987 65 43', '031-987 65 91', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Refrescos Americanas LTDA', 'Carlos Diaz', 'Marketing Manager', 'Av. das Americanas 12.890', 'Sao Paulo', NULL, '5442', 'Brazil', '(11) 555 4640', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Heli Süßwaren GmbH & Co. KG', 'Petra Winkler', 'Sales Manager', 'Tiergartenstraße 5', 'Berlin', NULL, '10785', 'Germany', '(010) 9984510', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Plutzer Lebensmittelgroßmärkte AG', 'Martin Bein', 'International Marketing Mgr.', 'Bogenallee 51', 'Frankfurt', NULL, '60439', 'Germany', '(069) 992755', NULL, 'Plutzer (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/plutzer.htm#');
+INSERT INTO suppliers VALUES (DEFAULT, 'Nord-Ost-Fisch Handelsgesellschaft mbH', 'Sven Petersen', 'Coordinator Foreign Markets', 'Frahmredder 112a', 'Cuxhaven', NULL, '27478', 'Germany', '(04721) 8713', '(04721) 8714', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Formaggi Fortini s.r.l.', 'Elio Rossi', 'Sales Representative', 'Viale Dante, 75', 'Ravenna', NULL, '48100', 'Italy', '(0544) 60323', '(0544) 60603', '#FORMAGGI.HTM#');
+INSERT INTO suppliers VALUES (DEFAULT, 'Norske Meierier', 'Beate Vileid', 'Marketing Manager', 'Hatlevegen 5', 'Sandvika', NULL, '1320', 'Norway', '(0)2-953010', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Bigfoot Breweries', 'Cheryl Saylor', 'Regional Account Rep.', '3400 - 8th Avenue Suite 210', 'Bend', 'OR', '97101', 'USA', '(503) 555-9931', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Svensk Sjöföda AB', 'Michael Björn', 'Sales Representative', 'Brovallavägen 231', 'Stockholm', NULL, 'S-123 45', 'Sweden', '08-123 45 67', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Aux joyeux ecclésiastiques', 'Guylène Nodier', 'Sales Manager', '203, Rue des Francs-Bourgeois', 'Paris', NULL, '75004', 'France', '(1) 03.83.00.68', '(1) 03.83.00.62', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'New England Seafood Cannery', 'Robb Merchant', 'Wholesale Account Agent', 'Order Processing Dept. 2100 Paul Revere Blvd.', 'Boston', 'MA', '02134', 'USA', '(617) 555-3267', '(617) 555-3389', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Leka Trading', 'Chandra Leka', 'Owner', '471 Serangoon Loop, Suite #402', 'Singapore', NULL, '0512', 'Singapore', '555-8787', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Lyngbysild', 'Niels Petersen', 'Sales Manager', 'Lyngbysild Fiskebakken 10', 'Lyngby', NULL, '2800', 'Denmark', '43844108', '43844115', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Zaanse Snoepfabriek', 'Dirk Luchte', 'Accounting Manager', 'Verkoop Rijnweg 22', 'Zaandam', NULL, '9999 ZZ', 'Netherlands', '(12345) 1212', '(12345) 1210', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Karkki Oy', 'Anne Heikkonen', 'Product Manager', 'Valtakatu 12', 'Lappeenranta', NULL, '53120', 'Finland', '(953) 10956', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'G''day, Mate', 'Wendy Mackenzie', 'Sales Representative', '170 Prince Edward Parade Hunter''s Hill', 'Sydney', 'NSW', '2042', 'Australia', '(02) 555-5914', '(02) 555-4873', 'G''day Mate (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/gdaymate.htm#');
+INSERT INTO suppliers VALUES (DEFAULT, 'Ma Maison', 'Jean-Guy Lauzon', 'Marketing Manager', '2960 Rue St. Laurent', 'Montréal', 'Québec', 'H1J 1C3', 'Canada', '(514) 555-9022', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Pasta Buttini s.r.l.', 'Giovanni Giudici', 'Order Administrator', 'Via dei Gelsomini, 153', 'Salerno', NULL, '84100', 'Italy', '(089) 6547665', '(089) 6547667', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Escargots Nouveaux', 'Marie Delamare', 'Sales Manager', '22, rue H. Voiron', 'Montceau', NULL, '71300', 'France', '85.57.00.07', NULL, NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Gai pâturage', 'Eliane Noz', 'Sales Representative', 'Bat. B 3, rue des Alpes', 'Annecy', NULL, '74000', 'France', '38.76.98.06', '38.76.98.58', NULL);
+INSERT INTO suppliers VALUES (DEFAULT, 'Forêts d''érables', 'Chantal Goulet', 'Accounting Manager', '148 rue Chasseur', 'Ste-Hyacinthe', 'Québec', 'J2S 7S8', 'Canada', '(514) 555-2955', '(514) 555-2921', NULL);
 
 
 --
@@ -3637,57 +3637,57 @@ INSERT INTO territories VALUES ('98104', 'Seattle', 2);
 -- Data for Name: us_states; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO us_states VALUES (1, 'Alabama', 'AL', 'south');
-INSERT INTO us_states VALUES (2, 'Alaska', 'AK', 'north');
-INSERT INTO us_states VALUES (3, 'Arizona', 'AZ', 'west');
-INSERT INTO us_states VALUES (4, 'Arkansas', 'AR', 'south');
-INSERT INTO us_states VALUES (5, 'California', 'CA', 'west');
-INSERT INTO us_states VALUES (6, 'Colorado', 'CO', 'west');
-INSERT INTO us_states VALUES (7, 'Connecticut', 'CT', 'east');
-INSERT INTO us_states VALUES (8, 'Delaware', 'DE', 'east');
-INSERT INTO us_states VALUES (9, 'District of Columbia', 'DC', 'east');
-INSERT INTO us_states VALUES (10, 'Florida', 'FL', 'south');
-INSERT INTO us_states VALUES (11, 'Georgia', 'GA', 'south');
-INSERT INTO us_states VALUES (12, 'Hawaii', 'HI', 'west');
-INSERT INTO us_states VALUES (13, 'Idaho', 'ID', 'midwest');
-INSERT INTO us_states VALUES (14, 'Illinois', 'IL', 'midwest');
-INSERT INTO us_states VALUES (15, 'Indiana', 'IN', 'midwest');
-INSERT INTO us_states VALUES (16, 'Iowa', 'IO', 'midwest');
-INSERT INTO us_states VALUES (17, 'Kansas', 'KS', 'midwest');
-INSERT INTO us_states VALUES (18, 'Kentucky', 'KY', 'south');
-INSERT INTO us_states VALUES (19, 'Louisiana', 'LA', 'south');
-INSERT INTO us_states VALUES (20, 'Maine', 'ME', 'north');
-INSERT INTO us_states VALUES (21, 'Maryland', 'MD', 'east');
-INSERT INTO us_states VALUES (22, 'Massachusetts', 'MA', 'north');
-INSERT INTO us_states VALUES (23, 'Michigan', 'MI', 'north');
-INSERT INTO us_states VALUES (24, 'Minnesota', 'MN', 'north');
-INSERT INTO us_states VALUES (25, 'Mississippi', 'MS', 'south');
-INSERT INTO us_states VALUES (26, 'Missouri', 'MO', 'south');
-INSERT INTO us_states VALUES (27, 'Montana', 'MT', 'west');
-INSERT INTO us_states VALUES (28, 'Nebraska', 'NE', 'midwest');
-INSERT INTO us_states VALUES (29, 'Nevada', 'NV', 'west');
-INSERT INTO us_states VALUES (30, 'New Hampshire', 'NH', 'east');
-INSERT INTO us_states VALUES (31, 'New Jersey', 'NJ', 'east');
-INSERT INTO us_states VALUES (32, 'New Mexico', 'NM', 'west');
-INSERT INTO us_states VALUES (33, 'New York', 'NY', 'east');
-INSERT INTO us_states VALUES (34, 'North Carolina', 'NC', 'east');
-INSERT INTO us_states VALUES (35, 'North Dakota', 'ND', 'midwest');
-INSERT INTO us_states VALUES (36, 'Ohio', 'OH', 'midwest');
-INSERT INTO us_states VALUES (37, 'Oklahoma', 'OK', 'midwest');
-INSERT INTO us_states VALUES (38, 'Oregon', 'OR', 'west');
-INSERT INTO us_states VALUES (39, 'Pennsylvania', 'PA', 'east');
-INSERT INTO us_states VALUES (40, 'Rhode Island', 'RI', 'east');
-INSERT INTO us_states VALUES (41, 'South Carolina', 'SC', 'east');
-INSERT INTO us_states VALUES (42, 'South Dakota', 'SD', 'midwest');
-INSERT INTO us_states VALUES (43, 'Tennessee', 'TN', 'midwest');
-INSERT INTO us_states VALUES (44, 'Texas', 'TX', 'west');
-INSERT INTO us_states VALUES (45, 'Utah', 'UT', 'west');
-INSERT INTO us_states VALUES (46, 'Vermont', 'VT', 'east');
-INSERT INTO us_states VALUES (47, 'Virginia', 'VA', 'east');
-INSERT INTO us_states VALUES (48, 'Washington', 'WA', 'west');
-INSERT INTO us_states VALUES (49, 'West Virginia', 'WV', 'south');
-INSERT INTO us_states VALUES (50, 'Wisconsin', 'WI', 'midwest');
-INSERT INTO us_states VALUES (51, 'Wyoming', 'WY', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Alabama', 'AL', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Alaska', 'AK', 'north');
+INSERT INTO us_states VALUES (DEFAULT, 'Arizona', 'AZ', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Arkansas', 'AR', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'California', 'CA', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Colorado', 'CO', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Connecticut', 'CT', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'Delaware', 'DE', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'District of Columbia', 'DC', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'Florida', 'FL', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Georgia', 'GA', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Hawaii', 'HI', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Idaho', 'ID', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Illinois', 'IL', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Indiana', 'IN', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Iowa', 'IO', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Kansas', 'KS', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Kentucky', 'KY', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Louisiana', 'LA', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Maine', 'ME', 'north');
+INSERT INTO us_states VALUES (DEFAULT, 'Maryland', 'MD', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'Massachusetts', 'MA', 'north');
+INSERT INTO us_states VALUES (DEFAULT, 'Michigan', 'MI', 'north');
+INSERT INTO us_states VALUES (DEFAULT, 'Minnesota', 'MN', 'north');
+INSERT INTO us_states VALUES (DEFAULT, 'Mississippi', 'MS', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Missouri', 'MO', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Montana', 'MT', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Nebraska', 'NE', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Nevada', 'NV', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'New Hampshire', 'NH', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'New Jersey', 'NJ', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'New Mexico', 'NM', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'New York', 'NY', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'North Carolina', 'NC', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'North Dakota', 'ND', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Ohio', 'OH', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Oklahoma', 'OK', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Oregon', 'OR', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Pennsylvania', 'PA', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'Rhode Island', 'RI', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'South Carolina', 'SC', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'South Dakota', 'SD', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Tennessee', 'TN', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Texas', 'TX', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Utah', 'UT', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'Vermont', 'VT', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'Virginia', 'VA', 'east');
+INSERT INTO us_states VALUES (DEFAULT, 'Washington', 'WA', 'west');
+INSERT INTO us_states VALUES (DEFAULT, 'West Virginia', 'WV', 'south');
+INSERT INTO us_states VALUES (DEFAULT, 'Wisconsin', 'WI', 'midwest');
+INSERT INTO us_states VALUES (DEFAULT, 'Wyoming', 'WY', 'west');
 
 
 --
@@ -3831,7 +3831,7 @@ ALTER TABLE ONLY orders
 --
 
 ALTER TABLE ONLY order_details
-    ADD CONSTRAINT fk_order_details_products FOREIGN KEY (product_id) REFERENCES products;
+    ADD CONSTRAINT fk_order_details_products FOREIGN KEY (product_id) REFERENCES products ON DELETE CASCADE;
 
 
 --
@@ -3839,7 +3839,7 @@ ALTER TABLE ONLY order_details
 --
 
 ALTER TABLE ONLY order_details
-    ADD CONSTRAINT fk_order_details_orders FOREIGN KEY (order_id) REFERENCES orders;
+    ADD CONSTRAINT fk_order_details_orders FOREIGN KEY (order_id) REFERENCES orders ON DELETE CASCADE;
 
 
 --
@@ -3905,7 +3905,12 @@ ALTER TABLE ONLY customer_customer_demo
 ALTER TABLE ONLY employees
     ADD CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES employees;
 
-    
+
+--
+-- Name: reset_orders_pk_seq; Schema: -; Owner: -
+--
+
+ALTER SEQUENCE orders_order_id_seq RESTART WITH 11078;
 --
 -- PostgreSQL database dump complete
 --

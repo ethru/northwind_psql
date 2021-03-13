@@ -3,10 +3,25 @@ version: '3'
 services:
   db:
     image: postgres:12
+    container_name: db
+    secrets:
+      - login
+      - password
     environment:
       POSTGRES_DB: northwind
-      POSTGRES_USER: northwind_user
-      POSTGRES_PASSWORD: thewindisblowing
+      POSTGRES_USER_FILE: /run/secrets/login
+      POSTGRES_PASSWORD_FILE: /run/secrets/password
     volumes:
       - ./dbdata:/var/lib/postgresql/data
       - ./northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+secrets:
+  db_uri:
+    file: ./secrets/db_uri.txt
+  login:
+    file: ./secrets/login.txt
+  password:
+    file: ./secrets/password.txt
