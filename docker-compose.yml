@@ -1,6 +1,28 @@
-version: '3'
+version: '3.1'
 
 services:
+  categories_service:
+    image: categories-service
+    build: ./categories-service
+    container_name: categories
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./categories-service/:/app/
+    ports:
+      - 8001:8000
+    secrets:
+      - db_uri
+    environment:
+      - DATABASE_URI=/run/secrets/db_uri
+    depends_on:
+      - db
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 3
+      restart_policy:
+        condition: on-failure
+
   db:
     image: postgres:12
     container_name: db
@@ -14,6 +36,19 @@ services:
     volumes:
       - ./dbdata:/var/lib/postgresql/data
       - ./northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - categories_service
     deploy:
       placement:
         constraints: [node.role == manager]
