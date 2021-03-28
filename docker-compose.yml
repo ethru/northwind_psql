@@ -13,8 +13,10 @@ services:
     secrets:
       - db_uri
     environment:
+      - AUTH_SERVICE_URL=http://auth_service:8000/api/auth/basic
       - DATABASE_URI=/run/secrets/db_uri
     depends_on:
+      - auth_service
       - db
     deploy:
       replicas: 3

@@ -3,9 +3,10 @@ from functools import wraps
 import imghdr
 from typing import List
 
-from fastapi import APIRouter, File, UploadFile, HTTPException
+from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 
 from app.api import db
+from app.api.auth import authorize
 from app.api.models import CategoryIn, CategoryOut, CategoryUpdate
 
 categories = APIRouter()
@@ -35,14 +36,14 @@ async def get_by_id(category_id: int):
     return await db.get_category(category_id)
 
 
-@categories.post('/new', response_model=CategoryOut, status_code=201)
+@categories.post('/new', response_model=CategoryOut, status_code=201, dependencies=[Depends(authorize)])
 async def create(payload: CategoryIn):
     """Create new category from send data."""
     category_id = await db.add_category(payload)
     return CategoryOut(**payload.dict(), category_id=category_id)
 
 
-@categories.post('/update/img/{category_id}')
+@categories.post('/update/img/{category_id}', dependencies=[Depends(authorize)])
 async def upload_file(category_id: int, file: UploadFile = File(...)):
     """Update category with set id by chosen image."""
     if not imghdr.what(file.file):
@@ -51,14 +52,14 @@ async def upload_file(category_id: int, file: UploadFile = File(...)):
     return await update(CategoryUpdate(category_id=category_id, picture=image))
 
 
-@categories.put('/update', response_model=CategoryOut)
+@categories.put('/update', response_model=CategoryOut, dependencies=[Depends(authorize)])
 @raise_404_if_none
 async def update(payload: CategoryUpdate):
     """Update category with set id by sent payload."""
     return await db.update(payload.dict(exclude_unset=True))
 
 
-@categories.delete('/del/{category_id}', response_model=CategoryOut)
+@categories.delete('/del/{category_id}', response_model=CategoryOut, dependencies=[Depends(authorize)])
 async def delete(category_id: int):
     """Delete category with set id."""
     return await db.delete(category_id)
