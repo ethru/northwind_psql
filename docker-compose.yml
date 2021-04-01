@@ -49,6 +49,30 @@ services:
       restart_policy:
         condition: on-failure
 
+  products_service:
+    image: products-service
+    build: ./products-service
+    container_name: products
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./products-service/:/app/
+    ports:
+      - 8003:8000
+    secrets:
+      - db_uri
+    environment:
+      - AUTH_SERVICE_URL=http://auth_service:8000/api/auth/basic
+      - DATABASE_URI=/run/secrets/db_uri
+    depends_on:
+      - auth_service
+      - db
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 3
+      restart_policy:
+        condition: on-failure
+
   db:
     image: postgres:12
     container_name: db
@@ -76,6 +100,7 @@ services:
     depends_on:
       - auth_service
       - categories_service
+      - products_service
     deploy:
       placement:
         constraints: [node.role == manager]
