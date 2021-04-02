@@ -73,6 +73,30 @@ services:
       restart_policy:
         condition: on-failure
 
+  reports_service:
+    image: reports-service
+    build: ./reports-service
+    container_name: reports
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./reports-service/:/app/
+    ports:
+      - 8004:8000
+    secrets:
+      - db_uri
+    environment:
+      - AUTH_SERVICE_URL=http://auth_service:8000/api/auth/basic
+      - DATABASE_URI=/run/secrets/db_uri
+    depends_on:
+      - auth_service
+      - db
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 3
+      restart_policy:
+        condition: on-failure
+
   db:
     image: postgres:12
     container_name: db
