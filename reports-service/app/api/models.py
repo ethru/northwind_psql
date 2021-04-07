@@ -12,6 +12,23 @@ categories = Table(
     Column('category_name', String)
 )
 
+customers = Table(
+    'customers',
+    metadata,
+    Column('customer_id', String, primary_key=True),
+    Column('company_name', String)
+)
+
+employees = Table(
+    'employees',
+    metadata,
+    Column('employee_id', Integer, primary_key=True),
+    Column('first_name', String),
+    Column('last_name', String),
+    Column('title', String),
+    Column('title_of_courtesy', String)
+)
+
 orders = Table(
     'orders',
     metadata,
@@ -29,6 +46,8 @@ orders = Table(
     Column('ship_region', String),
     Column('ship_postal_code', String),
     Column('ship_country', String),
+    ForeignKeyConstraint(['customer_id'], ['customers.customer_id']),
+    ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
     ForeignKeyConstraint(['ship_via'], ['shippers.shipper_id'])
 )
 
@@ -89,6 +108,19 @@ class Date(BaseModel):
             if from_date > to_date:
                 raise ValueError('to date must be greater or equal from date')
             return to_date
+
+
+class Employee(BaseModel):
+    employee_id: int
+    employee: str
+    title: str
+    orders: int
+
+
+class Customer(BaseModel):
+    customer_id: str
+    company_name: str
+    profit: int
 
 
 class Product(BaseModel):
