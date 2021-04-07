@@ -8,6 +8,8 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
       - ./categories-service/:/app/
+      - ./common/__init__.py:/app/app/api/__init__.py
+      - ./common/auth.py:/app/app/api/auth.py
     ports:
       - 8001:8000
     secrets:
@@ -56,6 +58,8 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
       - ./products-service/:/app/
+      - ./common/__init__.py:/app/app/api/__init__.py
+      - ./common/auth.py:/app/app/api/auth.py
     ports:
       - 8003:8000
     secrets:
@@ -80,6 +84,8 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
       - ./reports-service/:/app/
+      - ./common/__init__.py:/app/app/api/__init__.py
+      - ./common/auth.py:/app/app/api/auth.py
     ports:
       - 8004:8000
     secrets:
@@ -125,6 +131,7 @@ services:
       - auth_service
       - categories_service
       - products_service
+      - reports_service
     deploy:
       placement:
         constraints: [node.role == manager]
