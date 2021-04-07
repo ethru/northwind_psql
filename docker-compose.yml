@@ -120,6 +120,22 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  cadvisor:
+    image: gcr.io/google-containers/cadvisor
+    container_name: cadvisor
+    ports:
+    - 9000:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - nginx
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
   nginx:
     image: nginx:latest
     container_name: nginx
