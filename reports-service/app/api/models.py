@@ -46,6 +46,8 @@ orders = Table(
     Column('ship_region', String),
     Column('ship_postal_code', String),
     Column('ship_country', String),
+    Column('paypal_id', String),
+    Column('status', String),
     ForeignKeyConstraint(['customer_id'], ['customers.customer_id']),
     ForeignKeyConstraint(['employee_id'], ['employees.employee_id']),
     ForeignKeyConstraint(['ship_via'], ['shippers.shipper_id'])

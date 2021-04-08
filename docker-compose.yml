@@ -21,7 +21,7 @@ services:
       - auth_service
       - db
     deploy:
-      replicas: 3
+      replicas: 1
       update_config:
         parallelism: 3
       restart_policy:
@@ -45,7 +45,7 @@ services:
     depends_on:
       - db
     deploy:
-      replicas: 3
+      replicas: 1
       update_config:
         parallelism: 3
       restart_policy:
@@ -71,7 +71,7 @@ services:
       - auth_service
       - db
     deploy:
-      replicas: 3
+      replicas: 1
       update_config:
         parallelism: 3
       restart_policy:
@@ -97,7 +97,7 @@ services:
       - auth_service
       - db
     deploy:
-      replicas: 3
+      replicas: 1
       update_config:
         parallelism: 3
       restart_policy:
@@ -136,6 +136,32 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9001:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+    depends_on:
+      - cadvisor
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  node_exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    ports:
+      - 9002:9100
+    depends_on:
+      - prometheus
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -151,6 +177,9 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+
+volumes:
+  prometheus_data:
 
 secrets:
   db_uri:

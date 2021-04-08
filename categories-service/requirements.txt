@@ -6,3 +6,5 @@ uvicorn==0.11.3
 python-multipart==0.0.5
 asyncio==3.4.3
 aiohttp==3.7.3
+prometheus-client==0.9.0
+starlette-exporter==0.7.0

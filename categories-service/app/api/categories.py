@@ -4,6 +4,7 @@ import imghdr
 from typing import List
 
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
+from prometheus_client import Summary
 
 from app.api import db
 from app.api.auth import authorize
@@ -11,6 +12,7 @@ from app.api.models import CategoryIn, CategoryOut, CategoryUpdate
 
 categories = APIRouter()
 
+request_metrics = Summary('request_processing_seconds', 'Time spent processing request')
 
 def raise_404_if_none(func):
     @wraps(func)
@@ -22,13 +24,14 @@ def raise_404_if_none(func):
 
     return wrapper
 
-
+@request_metrics.time()
 @categories.get('/all', response_model=List[CategoryOut])
 async def get_all():
     """Return all categories stored in database."""
     return await db.get_categories()
 
 
+@request_metrics.time()
 @categories.get('/{category_id}', response_model=CategoryOut)
 @raise_404_if_none
 async def get_by_id(category_id: int):
@@ -36,6 +39,7 @@ async def get_by_id(category_id: int):
     return await db.get_category(category_id)
 
 
+@request_metrics.time()
 @categories.post('/new', response_model=CategoryOut, status_code=201, dependencies=[Depends(authorize)])
 async def create(payload: CategoryIn):
     """Create new category from send data."""
@@ -43,6 +47,7 @@ async def create(payload: CategoryIn):
     return CategoryOut(**payload.dict(), category_id=category_id)
 
 
+@request_metrics.time()
 @categories.post('/update/img/{category_id}', dependencies=[Depends(authorize)])
 async def upload_file(category_id: int, file: UploadFile = File(...)):
     """Update category with set id by chosen image."""
@@ -52,6 +57,7 @@ async def upload_file(category_id: int, file: UploadFile = File(...)):
     return await update(CategoryUpdate(category_id=category_id, picture=image))
 
 
+@request_metrics.time()
 @categories.put('/update', response_model=CategoryOut, dependencies=[Depends(authorize)])
 @raise_404_if_none
 async def update(payload: CategoryUpdate):
@@ -59,6 +65,7 @@ async def update(payload: CategoryUpdate):
     return await db.update(payload.dict(exclude_unset=True))
 
 
+@request_metrics.time()
 @categories.delete('/del/{category_id}', response_model=CategoryOut, dependencies=[Depends(authorize)])
 async def delete(category_id: int):
     """Delete category with set id."""
