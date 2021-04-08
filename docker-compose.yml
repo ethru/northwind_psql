@@ -151,11 +151,33 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 9002:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/:/etc/grafana/provisioning/
+    secrets:
+      - login
+      - password
+    environment:
+      - GF_SECURITY_ADMIN_USER__FILE=/run/secrets/login
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/password
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: always
+    depends_on:
+      - prometheus
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
   node_exporter:
     image: prom/node-exporter
     container_name: node-exporter
     ports:
-      - 9002:9100
+      - 9003:9100
     depends_on:
       - prometheus
     deploy:
@@ -180,6 +202,7 @@ services:
 
 volumes:
   prometheus_data:
+  grafana_data:
 
 secrets:
   db_uri:
