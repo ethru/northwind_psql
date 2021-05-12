@@ -1,3 +1,5 @@
+*/app/api/auth.py
+*/app/api/__init__.py
 dbdata
 __pycache__/
 .idea/
