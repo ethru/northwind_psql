@@ -1,8 +1,10 @@
 import base64
 from functools import wraps
 import imghdr
+from os import getenv
 from typing import List
 
+from elasticapm.contrib.starlette import make_apm_client
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from prometheus_client import Summary
 
@@ -13,6 +15,9 @@ from app.api.models import CategoryIn, CategoryOut, CategoryUpdate
 categories = APIRouter()
 
 request_metrics = Summary('request_processing_seconds', 'Time spent processing request')
+
+apm = make_apm_client({'SERVICE_NAME': 'Categories', 'SERVER_URL': getenv('APM_URL')})
+
 
 def raise_404_if_none(func):
     @wraps(func)
@@ -28,6 +33,7 @@ def raise_404_if_none(func):
 @categories.get('/all', response_model=List[CategoryOut])
 async def get_all():
     """Return all categories stored in database."""
+    apm.capture_message('All categories returned.')
     return await db.get_categories()
 
 
@@ -36,6 +42,7 @@ async def get_all():
 @raise_404_if_none
 async def get_by_id(category_id: int):
     """Return category with set id."""
+    apm.capture_message(param_message={'message': 'Category with %s id returned.', 'params': category_id})
     return await db.get_category(category_id)
 
 
@@ -44,6 +51,7 @@ async def get_by_id(category_id: int):
 async def create(payload: CategoryIn):
     """Create new category from send data."""
     category_id = await db.add_category(payload)
+    apm.capture_message(param_message={'message': 'Category with %s id created.', 'params': category_id})
     return CategoryOut(**payload.dict(), category_id=category_id)
 
 
@@ -54,6 +62,7 @@ async def upload_file(category_id: int, file: UploadFile = File(...)):
     if not imghdr.what(file.file):
         raise HTTPException(status_code=415, detail='Wrong image format.')
     image = base64.encodebytes(file.file.read()).decode()
+    apm.capture_message(param_message={'message': 'Image of category with %s id updated.', 'params': category_id})
     return await update(CategoryUpdate(category_id=category_id, picture=image))
 
 
@@ -62,6 +71,7 @@ async def upload_file(category_id: int, file: UploadFile = File(...)):
 @raise_404_if_none
 async def update(payload: CategoryUpdate):
     """Update category with set id by sent payload."""
+    apm.capture_message(param_message={'message': 'Category with %s id updated.', 'params': payload.category_id})
     return await db.update(payload.dict(exclude_unset=True))
 
 
@@ -69,4 +79,5 @@ async def update(payload: CategoryUpdate):
 @categories.delete('/del/{category_id}', response_model=CategoryOut, dependencies=[Depends(authorize)])
 async def delete(category_id: int):
     """Delete category with set id."""
+    apm.capture_message(param_message={'message': 'Category with %s id deleted.', 'params': category_id})
     return await db.delete(category_id)

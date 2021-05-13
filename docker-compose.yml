@@ -16,6 +16,7 @@ services:
       - db_uri
     environment:
       - AUTH_SERVICE_URL=http://auth_service:8000/api/auth/basic
+      - APM_URL=http://apm-server:8200
       - DATABASE_URI=/run/secrets/db_uri
     depends_on:
       - auth_service
@@ -38,6 +39,7 @@ services:
     environment:
       - LOGIN=/run/secrets/login
       - PASSWORD=/run/secrets/password
+      - APM_URL=http://apm-server:8200
     depends_on:
       - db
     networks:
@@ -59,6 +61,7 @@ services:
     environment:
       - AUTH_SERVICE_URL=http://auth_service:8000/api/auth/basic
       - DATABASE_URI=/run/secrets/db_uri
+      - APM_URL=http://apm-server:8200
     depends_on:
       - auth_service
       - db
@@ -81,6 +84,7 @@ services:
     environment:
       - AUTH_SERVICE_URL=http://auth_service:8000/api/auth/basic
       - DATABASE_URI=/run/secrets/db_uri
+      - APM_URL=http://apm-server:8200
     depends_on:
       - auth_service
       - db
